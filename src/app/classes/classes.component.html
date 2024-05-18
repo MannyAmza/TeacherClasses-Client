@@ -1,0 +1,20 @@
+<h1 id = "tableLabel">Classes</h1>
+<table class= "table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Class Number</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for(Class of classes; track $index) {
+            <tr>
+                <td><a [routerLink]="['/classCourses', Class.classId]">{{Class.classId}}</a>
+                    </td>
+                <td>{{Class.cname}}</td>
+                <td>{{Class.cnum}}</td>
+            </tr>
+        }
+    </tbody>
+</table>
