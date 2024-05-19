@@ -30,7 +30,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
   this.destorySubject.next(true);
   this.destorySubject.complete(); 
  }
+
+ //Go to homepage when logged out
  onLogout(): void{
   this.authservice.logout();
+  this.router.navigate(['/']);
  }
 }

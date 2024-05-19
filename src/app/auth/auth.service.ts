@@ -25,7 +25,11 @@ export class AuthService {
   }
 
   isAuthenticated(): boolean {
-   return this.getToken() !== null;
+    //fixes local storage error
+    if (typeof localStorage !== 'undefined') {
+      return this.getToken() !== null;
+    }
+    return false;
   }
 
   constructor(protected http:HttpClient) { }
@@ -43,7 +47,11 @@ export class AuthService {
   }
   //url, loginRequest/item
   getToken(): string | null {
-    return localStorage.getItem(this.tokenKey)
+    //fixes local storage error
+    if (typeof localStorage !== 'undefined') {
+      return localStorage.getItem(this.tokenKey);
+    }
+    return null;
   }
   logout(): void{
     localStorage.removeItem(this.tokenKey);

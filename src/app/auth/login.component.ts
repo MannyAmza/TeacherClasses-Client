@@ -12,7 +12,7 @@ import { LoginResult } from './login-result';
   standalone: true,
   imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule, RouterLink],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  styleUrl: './login.component.css'
 })
 export class LoginComponent implements OnInit {
   loginResult!: LoginResult;
@@ -42,7 +42,8 @@ export class LoginComponent implements OnInit {
         this.loginResult = result;
         if(result.success){
           localStorage.setItem(this.authService.tokenKey,result.token);
-          this.router.navigate(["/"]);
+          //goes to classes page now instead of home page
+          this.router.navigate(["/classes"]);
         }
        
       },

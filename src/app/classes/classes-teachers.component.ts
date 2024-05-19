@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RouterLink } from '@angular/router';
 import { environment } from '../../environments/environment.development';
 import {MatTableModule} from '@angular/material/table';
 import { HttpClient } from '@angular/common/http';
 import { Teachers } from './teacher'
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-classes-teachers',
@@ -17,22 +18,34 @@ export class ClassesTeachersComponent {
   public teachers: Teachers[] = [];
   public displayedColumns: string[] = [ 
     "professorId",
-    "professorName",
     "courseNum",
+    "professorName",
     "days",
     "time",
     "location"
   ];
   id: number;
 
-  constructor(private http: HttpClient, private activatedRoute: ActivatedRoute){
+  constructor(
+    private http: HttpClient, 
+    private activatedRoute: ActivatedRoute, 
+    private router: Router, 
+    private authService: AuthService){
     this.id = -1;
   }
 
-    ngOnInit(){
+  //Instead of displaying nothing, It will instead route them to login
+  ngOnInit() {
+    if (this.authService.isAuthenticated()) {
       this.getCourses();
+    } else {
+      this.router.navigate(['/login']);
     }
+  }
 
+  //Displayed multiple courses as duplicates with different IDs
+  //Made it so that if the Course number is equal to one another, it chooses to 
+  //display the course with the lowest ID only
   getCourses() {
     let idparameter = this.activatedRoute.snapshot.paramMap.get("id");
     this.id = idparameter ? +idparameter : 0;
