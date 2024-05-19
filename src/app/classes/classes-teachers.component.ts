@@ -35,11 +35,21 @@ export class ClassesTeachersComponent {
 
   getCourses() {
     let idparameter = this.activatedRoute.snapshot.paramMap.get("id");
-    this.id = idparameter ? + idparameter : 0;
-
+    this.id = idparameter ? +idparameter : 0;
+  
     this.http.get<Teachers[]>(`${environment.baseUrl}api/classes/classCourses/${this.id}`).subscribe(
       {
-        next: result => this.teachers = result,
+        next: result => {
+          this.teachers = result.reduce((acc: Teachers[], curr: Teachers) => {
+            const existingTeacher = acc.find((t: Teachers) => t.courseNum === curr.courseNum);
+            if (existingTeacher && existingTeacher.professorId > curr.professorId) {
+              acc[acc.indexOf(existingTeacher)] = curr;
+            } else if (!existingTeacher) {
+              acc.push(curr);
+            }
+            return acc;
+          }, []);
+        },
         error: error => console.log(error)
       }
     );
