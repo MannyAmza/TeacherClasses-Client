@@ -1,5 +1,27 @@
 <h1>Courses</h1>
-<table mat-table [dataSource]="teachers" 
+<div class="filter-container">
+  <div class="filter-group">
+    <label>
+      <input type="radio" name="in-person" (change)="toggleInPersonFilter(true)" [checked]="isInPerson === true">
+      In-Person
+    </label>
+    <label>
+      <input type="radio" name="in-person" (change)="toggleInPersonFilter(false)" [checked]="isInPerson === false">
+      Online
+    </label>
+  </div>
+  <div class="filter-group">
+    <label>
+      <input type="radio" name="weekday" (change)="toggleWeekdayFilter(true)" [checked]="isWeekday === true">
+      Weekday
+    </label>
+    <label>
+      <input type="radio" name="weekday" (change)="toggleWeekdayFilter(false)" [checked]="isWeekday === false">
+      Weekend
+    </label>
+  </div>
+</div>
+<table mat-table [dataSource]="filteredTeachers" 
     class="mat-elevation-z8">
     <!-- Id Column -->
     <ng-container matColumnDef="professorId">
